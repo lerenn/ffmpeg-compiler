@@ -2,7 +2,7 @@
 
 # Set variables
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-WORK_DIR="${DIR}/build"
+WORK_DIR="${DIR}/../build"
 
 # Set
 set -eux
@@ -13,10 +13,16 @@ if [ $(id -u) -ne 0 ]
   exit
 fi
 
-# FFNVCodec
+# Check if FFNVCodec installation has been executed
 mkdir -p ${WORK_DIR} && cd ${WORK_DIR}
-if [ ! -d "${WORK_DIR}/nv-codec-headers" ]; then
-      git clone --recursive https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+if [ -d "${WORK_DIR}/nv-codec-headers" ]; then
+  echo "FFNVCodec is already installed."
+  exit
 fi
+
+# Download FFNVCodec
+git clone --recursive --depth 1 https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+
+# Install FFNVCodec
 cd nv-codec-headers
-sudo make install
+make install

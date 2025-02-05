@@ -2,25 +2,33 @@
 
 DOCKER_IMAGE := "lerenn/ffmpeg:latest"
 
+.PHONY: all
+all: dependencies build install ## Build and install ffmpeg
+
+.PHONY: build
+build: ## Build ffmpeg
+	@bash ./build.sh
+
 .PHONY: install
-install: dependencies ## Build the ffmpeg binary and install it
-	@sudo bash ./ffmpeg.sh
+install: ## Install ffmpeg
+	@bash ./install.sh
 
 .PHONY: dependencies
 dependencies: ## Build ffmpeg dependencies
-	@sudo bash ./dependencies/dnf.sh
-	@sudo bash ./dependencies/libaom-av1.sh 
-	@sudo bash ./dependencies/libfdk_aac.sh
-	@sudo bash ./dependencies/libmp3lame.sh
-	@sudo bash ./dependencies/libx264.sh
-	@sudo bash ./dependencies/libx265.sh
-	@sudo bash ./dependencies/vidstab.sh
-	@sudo bash ./dependencies/gcc.13.sh
-	@sudo bash ./dependencies/ffnvcodec.sh
+	@bash ./dependencies/dnf.sh
+	@bash ./dependencies/cuda.sh
+	@bash ./dependencies/ffnvcodec.sh
+	@bash ./dependencies/gcc.13.sh
+	@bash ./dependencies/libaom-av1.sh 
+	@bash ./dependencies/libfdk_aac.sh
+	@bash ./dependencies/libmp3lame.sh
+	@bash ./dependencies/libx264.sh
+	@bash ./dependencies/libx265.sh
+	@bash ./dependencies/vidstab.sh
 
 .PHONY: clean
-clean: ## Clean the build 
-	@sudo rm -rf ./build
+clean: ## Clean the build
+	@rm -rf ./build
 
 .PHONY: help
 help: ## Display this help message

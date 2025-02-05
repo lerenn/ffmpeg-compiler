@@ -2,7 +2,7 @@
 
 # Set variables
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-WORK_DIR="${DIR}/build"
+WORK_DIR="${DIR}/../build"
 
 # Set
 set -eux
@@ -13,12 +13,20 @@ if [ $(id -u) -ne 0 ]
   exit
 fi
 
-# libx264
+# Check if libx264 installation has been executed
 mkdir -p ${WORK_DIR} && cd ${WORK_DIR}
-if [ ! -d "${WORK_DIR}/x264" ]; then
-      git clone https://code.videolan.org/videolan/x264.git
+if [ -d "${WORK_DIR}/x264" ]; then
+  echo "libx264 is already installed."
+  exit
 fi
+
+# Download libx264
+git clone --recursive --depth 1 https://code.videolan.org/videolan/x264.git
+
+# Build libx264
 cd x264
 ./configure --prefix="/usr/local" --enable-static
 make -j $(nproc)
-sudo make install
+
+# Install libx264
+make install

@@ -2,7 +2,7 @@
 
 # Set variables
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-WORK_DIR="${DIR}/build"
+WORK_DIR="${DIR}/../build"
 
 # Set
 set -eux
@@ -13,16 +13,24 @@ if [ $(id -u) -ne 0 ]
   exit
 fi
 
-# Vidstab
+# Check if vid.stab installation has been executed
 mkdir -p ${WORK_DIR} && cd ${WORK_DIR}
-if [ ! -d "${WORK_DIR}/vid.stab" ]; then
-      git clone --recursive https://github.com/georgmartius/vid.stab.git
+if [ -d "${WORK_DIR}/vid.stab" ]; then
+    echo "vid.stab is already installed."
+    exit
 fi
+
+# Download vid.stab
+git clone --recursive --depth 1 https://github.com/georgmartius/vid.stab.git
+
+# Build vid.stab
 cd vid.stab
 cmake . \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_INSTALL_PREFIX="/usr/local" \
-      -DCMAKE_MACOSX_RPATH=ON \
-      -DCMAKE_INSTALL_RPATH="/usr/local/lib"
-make
-sudo make install
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_INSTALL_PREFIX="/usr/local" \
+  -DCMAKE_MACOSX_RPATH=ON \
+  -DCMAKE_INSTALL_RPATH="/usr/local/lib"
+make -j $(nproc)
+
+# Install vid.stab
+make install
