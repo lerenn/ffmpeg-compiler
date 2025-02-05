@@ -15,15 +15,17 @@ fi
 
 # Check if CUDA installation has been executed
 mkdir -p ${WORK_DIR} && cd ${WORK_DIR}
-if [ -f "${WORK_DIR}/cuda_12.6.3_560.35.05_linux.run" ]; then
-    echo "CUDA is already installed."
+if [ -d "${WORK_DIR}/cuda-toolkit" ]; then
+    echo "CUDA toolkit is already installed."
     exit
 fi
 
-# Download CUDA
-wget https://developer.download.nvidia.com/compute/cuda/12.6.3/local_installers/cuda_12.6.3_560.35.05_linux.run
+# Download CUDA if not present
+if [ ! -f "${WORK_DIR}/cuda_12.6.3_560.35.05_linux.run" ]; then
+    wget https://developer.download.nvidia.com/compute/cuda/12.6.3/local_installers/cuda_12.6.3_560.35.05_linux.run
+fi
 
 # Install CUDA
 chmod +x cuda_12.6.3_560.35.05_linux.run
-mkdir -p ${WORK_DIR}/cuda
-./cuda_12.6.3_560.35.05_linux.run --override --silent --toolkit --tmpdir=${WORK_DIR}/cuda
+mkdir -p ${WORK_DIR}/cuda-toolkit
+./cuda_12.6.3_560.35.05_linux.run --override --silent --toolkit --tmpdir=${WORK_DIR}/cuda-toolkit

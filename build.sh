@@ -15,8 +15,12 @@ fi
 
 # Change the version of GCC if incorrect
 if [ "$(gcc -dumpversion)" != "13" ]; then
-  sudo mv /usr/bin/gcc /usr/bin/gcc-$(gcc -dumpversion)
-  sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13.2 100
+  if [ -f "/usr/bin/gcc-$(gcc -dumpversion)" ]; then
+    mv /usr/bin/gcc /usr/bin/gcc-$(gcc -dumpversion)
+  else 
+    rm /usr/bin/gcc
+  fi
+  ln -s /usr/bin/gcc-13.2 /usr/bin/gcc
 fi
 
 # Add CUDA/NVCC to PATH

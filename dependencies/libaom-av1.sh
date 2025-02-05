@@ -25,7 +25,7 @@ git clone --branch master --recursive --depth 1 https://aomedia.googlesource.com
 
 # Build libaom-av1
 mkdir -p ${WORK_DIR}/av1/build && cd ${WORK_DIR}/av1/build
-cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/usr/local" -DENABLE_SHARED=off -DENABLE_NASM=on ..
+cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/usr/local" -DENABLE_NASM=on ..
 make -j $(nproc)
 
 # Install libaom-av1

@@ -26,7 +26,7 @@ git clone --recursive --depth 1 git://git.code.sf.net/p/opencore-amr/fdk-aac
 # Build libfdk_aac
 cd fdk-aac
 autoreconf -fiv
-./configure --prefix="/usr/local" --disable-shared
+./configure --prefix="/usr/local"
 make -j $(nproc)
 
 # Install libfdk_aac

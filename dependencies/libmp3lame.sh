@@ -30,7 +30,7 @@ tar xzvf lame-3.100.tar.gz
 # Build libmp3lame
 cd lame-3.100
 autoreconf --install
-./configure --prefix="/usr/local" --disable-shared --enable-nasm
+./configure --prefix="/usr/local" --enable-nasm
 make -j $(nproc)
 
 # Install libmp3lame

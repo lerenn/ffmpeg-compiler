@@ -25,7 +25,7 @@ git clone --recursive --depth 1 https://code.videolan.org/videolan/x264.git
 
 # Build libx264
 cd x264
-./configure --prefix="/usr/local" --enable-static
+./configure --prefix="/usr/local"
 make -j $(nproc)
 
 # Install libx264
